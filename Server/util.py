@@ -35,7 +35,11 @@ def classify_image(image_b64, file_path=None):
         X = stacked_img.reshape(1, len_image_array).astype(float)
 
         # 6 - Predict
-        result.append(class_number_to_name(__model.predict(X)[0]))
+        result.append({
+            'class': class_number_to_name(__model.predict(X)[0]),
+            'class_probability': np.around(__model.predict_proba(X) * 100, 2).tolist()[0],
+            'class_dictionary': __class_name_to_number
+        })
 
     return result
 
@@ -109,4 +113,4 @@ def class_number_to_name(class_num):
 
 if __name__ == "__main__":
     load_saved_artifacts()
-    print(classify_image(get_b64_test_image(), None))
+    print(classify_image(None, "./test.jpg"))
