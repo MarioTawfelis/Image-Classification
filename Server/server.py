@@ -1,15 +1,16 @@
 from flask import Flask, request, jsonify
 import util
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='ImageClassification/UI/')
 
 
 @app.route('/classify_image', methods=['GET', 'POST'])
 def classify_image():
     image_data = request.form['image_data']
 
+    print(image_data)
     response = jsonify(util.classify_image(image_data))
-
+    print(response)
     response.headers.add('Access-Control-Allow-Origin', '*')
 
     return response

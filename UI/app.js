@@ -18,13 +18,12 @@ function init() {
     dz.on("complete", function (file) {
         let imageData = file.dataURL;
 
-        var url = "/api/classify_image";
+        var url = "http://127.0.0.1:5000/classify_image";
 
         $.post(url, {
             image_data: file.dataURL
         },function(data, status) {
-
-            console.log(data);
+//            console.log(data);
             if (!data || data.length==0) {
                 $("#resultHolder").hide();
                 $("#divClassTable").hide();
@@ -50,12 +49,12 @@ function init() {
                 let classDictionary = match.class_dictionary;
                 for(let personName in classDictionary) {
                     let index = classDictionary[personName];
-                    let proabilityScore = match.class_probability[index];
+                    let probabilityScore = match.class_probability[index];
                     let elementName = "#score_" + personName;
-                    $(elementName).html(proabilityScore);
+                    $(elementName).html(probabilityScore);
                 }
             }
-            // dz.removeFile(file);
+            dz.removeFile(file);
         });
     });
 
